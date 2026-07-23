@@ -4,6 +4,8 @@ import (
 	"TelephoneBook/commands"
 	"TelephoneBook/utils"
 	"fmt"
+
+	_ "github.com/mattn/go-sqlite3"
 )
 
 func hub() error {
@@ -15,6 +17,7 @@ Loop:
 		fmt.Println("3. Удалить контакт")
 		fmt.Println("4. Редактировать контакт")
 		fmt.Println("5. Показать все контакты")
+		fmt.Println("9. Отчистить контакты (удалить все данные)")
 		fmt.Println("0. Выход")
 
 		_, cmd := utils.WaitForInput(true)
@@ -25,6 +28,7 @@ Loop:
 		case 3:
 		case 4:
 		case 5:
+		case 9:
 		case 0:
 			break Loop
 		default:

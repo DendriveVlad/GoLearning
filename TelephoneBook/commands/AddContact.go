@@ -19,9 +19,10 @@ func AddContact() bool {
 		if number == "0" {
 			return false
 		}
-		number, ok := utils.NormalizeNumber([]rune(number))
+		number, ok := utils.NormalizeNumber(number)
 		if !ok {
 			fmt.Println("Номер не распознан, попробуйте снова")
+			continue
 		}
 		break
 	}

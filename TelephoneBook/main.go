@@ -1,9 +1,29 @@
 package main
 
-import "fmt"
+import (
+	"TelephoneBook/db"
+	"database/sql"
+	"fmt"
+)
 
 func main() {
-	err := hub()
+	err := db.InitDB()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	defer func(DB *sql.DB) {
+		err := DB.Close()
+		if err != nil {
+			derr := DB.Ping()
+			if derr != nil {
+				panic(derr)
+			}
+		}
+	}(db.DB)
+
+	err = hub()
 	if err != nil {
 		fmt.Println(err)
 	}

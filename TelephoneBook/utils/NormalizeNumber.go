@@ -5,7 +5,7 @@ import (
 	"unicode"
 )
 
-func NormalizeNumber(rawNumber []rune) (string, bool) {
+func NormalizeNumber(rawNumber string) (string, bool) {
 	clearNumber := ""
 	for _, char := range rawNumber {
 		if char == '+' {
@@ -16,7 +16,7 @@ func NormalizeNumber(rawNumber []rune) (string, bool) {
 			continue
 		}
 		if char == '*' || char == '#' {
-			if clearNumber != "" && (!strings.Contains(clearNumber, "*") || !strings.Contains(clearNumber, "#")) {
+			if clearNumber != "" && !(strings.Contains(clearNumber, "*") || strings.Contains(clearNumber, "#")) {
 				return "", false
 			}
 			clearNumber += string(char)
@@ -28,8 +28,10 @@ func NormalizeNumber(rawNumber []rune) (string, bool) {
 		if !unicode.IsDigit(char) {
 			return "", false
 		}
-		// TODO: Нужно нормализовать до читемого варианта. С этим поможет "://github.com" функция phonenumbers.Format
 		clearNumber += string(char)
+	}
+	if (clearNumber[0] == '#' || clearNumber[0] == '*') && !(clearNumber[len(clearNumber)-1] == '#' || clearNumber[len(clearNumber)-1] == '*') {
+		return "", false
 	}
 	return clearNumber, true
 }
