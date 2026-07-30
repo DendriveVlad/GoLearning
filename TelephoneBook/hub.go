@@ -21,6 +21,7 @@ Loop:
 		fmt.Println("0. Выход")
 
 		_, cmd := utils.WaitForInput(true)
+		fmt.Println()
 		switch cmd {
 		case 1:
 			commands.AddContact()
@@ -28,12 +29,14 @@ Loop:
 		case 3:
 		case 4:
 		case 5:
+			commands.ShowContacts()
 		case 9:
 		case 0:
 			break Loop
 		default:
 			fmt.Println("Не известная команда")
 		}
+		fmt.Println()
 	}
 	return nil
 }

@@ -4,9 +4,12 @@ import (
 	"database/sql"
 	"os"
 	"path/filepath"
+
+	_ "modernc.org/sqlite"
 )
 
 var DB *sql.DB
+var TableName string = "contacts"
 
 func InitDB() error {
 	appDataDir, err := os.UserConfigDir()
@@ -19,7 +22,7 @@ func InitDB() error {
 		return err
 	}
 	dbPath := filepath.Join(myAppDir, "storage.db")
-	DB, err := sql.Open("sqlite3", dbPath)
+	DB, err = sql.Open("sqlite", dbPath)
 	if err != nil {
 		return err
 	}
@@ -27,7 +30,17 @@ func InitDB() error {
 	if err := DB.Ping(); err != nil {
 		return err
 	}
+	if err := initTable(); err != nil {
+		return err
+	}
 	return nil
 }
 
-// TODO: Нужно сделать создание таблички
+func initTable() error {
+	var err error
+	_, err = DB.Exec("CREATE TABLE IF NOT EXISTS " + TableName + " (phone TEXT PRIMARY KEY, name TEXT)")
+	if err != nil {
+		return err
+	}
+	return nil
+}

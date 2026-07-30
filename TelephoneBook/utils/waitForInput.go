@@ -1,18 +1,21 @@
 package utils
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 	"strconv"
 )
 
 func WaitForInput(convertToInt bool) (string, int) {
 	for {
-		var input string
-		_, err := fmt.Scanln(&input)
-		if err != nil {
+		reader := bufio.NewReader(os.Stdin)
+		input, err := reader.ReadString('\n')
+		if err != nil || input == "\n" {
 			fmt.Println("Не валидные данные. Повторите ввод:")
 			continue
 		}
+		input = input[:len(input)-1]
 		if convertToInt {
 			t, err := strconv.Atoi(input)
 			if err != nil {

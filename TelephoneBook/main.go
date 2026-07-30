@@ -4,6 +4,8 @@ import (
 	"TelephoneBook/db"
 	"database/sql"
 	"fmt"
+
+	_ "modernc.org/sqlite"
 )
 
 func main() {
