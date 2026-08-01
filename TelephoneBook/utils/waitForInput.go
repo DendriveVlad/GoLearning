@@ -5,13 +5,14 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 )
 
 func WaitForInput(convertToInt bool) (string, int) {
 	for {
 		reader := bufio.NewReader(os.Stdin)
 		input, err := reader.ReadString('\n')
-		if err != nil || input == "\n" {
+		if err != nil || strings.ReplaceAll(input, " ", "") == "\n" {
 			fmt.Println("Не валидные данные. Повторите ввод:")
 			continue
 		}

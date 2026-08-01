@@ -11,9 +11,13 @@ func ShowContacts() bool {
 		fmt.Println("Произошла ошибка с выгрузкой данных")
 		return false
 	}
+	if contacts == nil || len(contacts) == 0 {
+		fmt.Println("Справочник пуст")
+		return true
+	}
 	fmt.Println("====Контакты из справочника====")
 	for _, contact := range contacts {
-		fmt.Println(contact.Phone, ":", contact.Name)
+		fmt.Println(contact.Name, ":", contact.Phone)
 	}
 	fmt.Println("===============================")
 	return true

@@ -22,19 +22,30 @@ Loop:
 
 		_, cmd := utils.WaitForInput(true)
 		fmt.Println()
+		ok := true
 		switch cmd {
 		case 1:
-			commands.AddContact()
+			ok = commands.AddContact()
 		case 2:
+			ok = commands.FindContact()
 		case 3:
+			ok = commands.DropContact()
 		case 4:
+			ok = commands.UpdateContact()
 		case 5:
-			commands.ShowContacts()
+			ok = commands.ShowContacts()
 		case 9:
+			ok = commands.DropData()
+			if ok {
+				break Loop
+			}
 		case 0:
 			break Loop
 		default:
 			fmt.Println("Не известная команда")
+		}
+		if ok == false {
+			fmt.Println("При работе команды что-то пошло не так...")
 		}
 		fmt.Println()
 	}

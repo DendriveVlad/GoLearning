@@ -10,25 +10,24 @@ import (
 )
 
 func AddContact() bool {
-	fmt.Println("Чтобы вернуться назад введите: 0")
+	contact := db.Contact{}
+
+	fmt.Println("Чтобы вернуться назад введите \"0\"")
 	fmt.Println("Введите имя контакта:")
-	var (
-		name   string
-		number string
-	)
-	name, _ = utils.WaitForInput(false)
-	if name == "0" {
-		return false
+
+	contact.Name, _ = utils.WaitForInput(false)
+	if contact.Name == "0" {
+		return true
 	}
 
 	for {
 		fmt.Println("Введите номер телефона:")
-		number, _ = utils.WaitForInput(false)
-		if number == "0" {
-			return false
+		contact.Phone, _ = utils.WaitForInput(false)
+		if contact.Phone == "0" {
+			return true
 		}
 		var ok bool
-		number, ok = utils.NormalizeNumber(number)
+		contact.Phone, ok = utils.NormalizeNumber(contact.Phone)
 		if !ok {
 			fmt.Println("Номер не распознан, попробуйте снова")
 			continue
@@ -36,14 +35,14 @@ func AddContact() bool {
 		break
 	}
 
-	err := db.Insert(number, name)
+	err := db.Insert(contact.Phone, contact.Name)
 	if err != nil {
 		var sqliteErr *sqlite.Error
 		if errors.As(err, &sqliteErr) && sqliteErr.Code() == 1555 {
 			fmt.Println("Такой номер телефона уже записан")
-		} else {
-			fmt.Println("Произошла ошибка при записи в бд")
+			return true
 		}
+		fmt.Println("Произошла ошибка при записи в бд")
 		return false
 	}
 
